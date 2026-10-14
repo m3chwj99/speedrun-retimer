@@ -1,0 +1,10 @@
+services:
+  retime:
+    image: nginx:alpine
+    container_name: retime
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      # Dossier "site" : index.html, settings.html, style.css, main.js, settings.js, favicon.ico
+      - ./site:/usr/share/nginx/html:ro

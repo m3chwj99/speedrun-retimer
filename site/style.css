@@ -1,0 +1,621 @@
+/* ==========================================================================
+   Retimer — AuthKit-style design (midnight canvas, frosted glass, violet CTA)
+   Fonts: Inter (Untitled Sans), Space Grotesk (aeonikPro), JetBrains Mono (dotDigital)
+   ========================================================================== */
+
+:root {
+	/* Colors */
+	--midnight-canvas: #05060f;
+	--steel-plate: #2f343e;
+	--fog-veil: #9da7ba;
+	--moon-mist: #c7d3ea;
+	--frost-glow: #d1e4fa;
+	--ice-highlight: #d8ecf8;
+	--ice-gradient: linear-gradient(0deg, #d8ecf8 0%, #98c0ef 100%);
+	--pure-white: #ffffff;
+	--void-violet: #663af3;
+
+	/* Semantic (dark = default) */
+	--canvas: var(--midnight-canvas);
+	--text-head: var(--ice-highlight);
+	--text-body: var(--frost-glow);
+	--text-muted: var(--moon-mist);
+	--text-helper: var(--fog-veil);
+	--text-strong: var(--pure-white);
+	--hairline: rgba(186, 215, 247, 0.12);
+	--hairline-strong: rgba(186, 215, 247, 0.24);
+	--wash: rgba(186, 214, 247, 0.06);
+	--wash-hover: rgba(186, 214, 247, 0.12);
+	--input-bg: rgba(199, 211, 234, 0.06);
+	--grid: rgba(186, 215, 247, 0.06);
+	--card-bg: rgba(5, 6, 15, 0.97);
+	--card-shadow:
+		inset 0 1px 1px rgba(216, 236, 248, 0.2),
+		inset 0 24px 48px rgba(168, 216, 245, 0.06),
+		0 16px 32px rgba(0, 0, 0, 0.3);
+	--halo: rgba(124, 145, 182, 0.5);
+	--halo-soft: rgba(124, 145, 182, 0.3);
+	--glow: drop-shadow(0 0 6px rgba(186, 207, 247, 0.32)) drop-shadow(0 0 12px rgba(238, 186, 247, 0.24));
+	--switch-on: rgba(186, 214, 247, 0.34);
+	--switch-knob: var(--frost-glow);
+	--heading-fill: var(--ice-gradient);
+
+	/* Type */
+	--font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--font-display: "Space Grotesk", var(--font-sans);
+	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+	/* Shape / layout */
+	--radius-card: 16px;
+	--radius-input: 6px;
+	--radius-pill: 999px;
+	--page-width: 720px;
+	color-scheme: dark;
+}
+
+/* Light variant — only used if the user switches the toggle off on the settings page */
+[theme="light"] {
+	--canvas: #f3f6fc;
+	--text-head: #0b1224;
+	--text-body: #1c2946;
+	--text-muted: #3d4c6b;
+	--text-helper: #5c6b88;
+	--text-strong: #0b1224;
+	--hairline: rgba(20, 40, 90, 0.14);
+	--hairline-strong: rgba(20, 40, 90, 0.28);
+	--wash: rgba(20, 40, 90, 0.05);
+	--wash-hover: rgba(20, 40, 90, 0.1);
+	--input-bg: rgba(20, 40, 90, 0.05);
+	--grid: rgba(20, 40, 90, 0.06);
+	--card-bg: rgba(255, 255, 255, 0.92);
+	--card-shadow:
+		inset 0 1px 1px rgba(255, 255, 255, 0.9),
+		0 16px 32px rgba(40, 60, 110, 0.12);
+	--halo: rgba(120, 150, 210, 0.35);
+	--halo-soft: rgba(120, 150, 210, 0.2);
+	--glow: none;
+	--switch-on: rgba(60, 90, 160, 0.5);
+	--switch-knob: #ffffff;
+	--heading-fill: linear-gradient(0deg, #0b1224 0%, #3a5a96 100%);
+	color-scheme: light;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	background-color: var(--canvas);
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+html, body {
+	margin: 0;
+	font-family: var(--font-sans);
+	font-size: 16px;
+	line-height: 1.5;
+	letter-spacing: -0.01em;
+	font-variant-ligatures: common-ligatures;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	min-height: 100vh;
+	color: var(--text-body);
+	padding: 96px 16px 120px;
+	position: relative;
+}
+
+/* Ambient blueprint grid */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -2;
+	pointer-events: none;
+	background-image:
+		linear-gradient(var(--grid) 1px, transparent 1px),
+		linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+	background-size: 80px 80px;
+	background-position: center top;
+	-webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 15%, transparent 75%);
+	mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 15%, transparent 75%);
+}
+
+/* Conic spotlight at the top of the page */
+body::after {
+	content: "";
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 70vh;
+	z-index: -1;
+	pointer-events: none;
+	background: conic-gradient(
+		from 0deg at 50% -5%,
+		transparent 45%,
+		var(--halo-soft) 49%,
+		var(--halo) 50%,
+		var(--halo-soft) 51%,
+		transparent 55%
+	);
+	-webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+	mask-image: linear-gradient(180deg, #000 0%, transparent 100%);
+}
+
+.page {
+	width: 100%;
+	max-width: var(--page-width);
+	margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.hero {
+	text-align: center;
+	margin-bottom: 56px;
+}
+
+.eyebrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	margin: 0 0 20px;
+	font-family: var(--font-mono);
+	font-size: 15px;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+	font-feature-settings: "tnum" on;
+}
+
+.eyebrow::before,
+.eyebrow::after {
+	content: "";
+	flex: 1;
+	max-width: 120px;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, var(--hairline-strong));
+}
+
+.eyebrow::after {
+	transform: scaleX(-1);
+}
+
+h1 {
+	margin: 0 0 16px;
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: 48px;
+	line-height: 1.17;
+	letter-spacing: 0;
+	background: var(--heading-fill);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
+	filter: var(--glow);
+}
+
+.lead {
+	max-width: 640px;
+	margin: 0 auto 24px;
+	font-size: 18px;
+	line-height: 1.33;
+	color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Glass card + steps
+   -------------------------------------------------------------------------- */
+
+.card {
+	padding: 32px;
+	background: var(--card-bg);
+	border-radius: var(--radius-card);
+	box-shadow: var(--card-shadow);
+}
+
+.step + .step,
+.setting + .setting {
+	margin-top: 32px;
+	padding-top: 32px;
+	background: linear-gradient(90deg, transparent, var(--hairline), transparent) top / 100% 1px no-repeat;
+}
+
+h2 {
+	margin: 0 0 8px;
+	font-family: var(--font-display);
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 1.17;
+	letter-spacing: -0.01em;
+	color: var(--text-head);
+}
+
+h2 .index {
+	display: inline-block;
+	margin-right: 12px;
+	font-family: var(--font-mono);
+	font-weight: 400;
+	font-size: 12px;
+	letter-spacing: 0.1em;
+	color: var(--text-helper);
+	vertical-align: middle;
+}
+
+p {
+	margin: 0 0 16px;
+	color: var(--text-muted);
+}
+
+.hint {
+	font-size: 14px;
+	line-height: 1.43;
+	color: var(--text-helper);
+}
+
+label {
+	display: block;
+	margin-bottom: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.43;
+	color: var(--text-muted);
+}
+
+.field {
+	margin: 0 0 16px;
+}
+
+.field:last-child {
+	margin-bottom: 0;
+}
+
+.field-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+}
+
+.field-row .field {
+	margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Inputs
+   -------------------------------------------------------------------------- */
+
+button, input, textarea, kbd {
+	font-family: var(--font-sans);
+	font-size: 14px;
+	line-height: 1.43;
+	margin: 0;
+	border: none;
+}
+
+input, textarea {
+	width: 100%;
+	padding: 10px 12px;
+	color: var(--text-strong);
+	background-color: var(--input-bg);
+	border-radius: var(--radius-input);
+	box-shadow: inset 0 0 0 1px var(--hairline);
+	outline: none;
+	overflow: visible;
+	transition: box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--moon-mist);
+	opacity: 0.6;
+}
+
+input:focus,
+textarea:focus {
+	box-shadow: inset 0 0 0 1px var(--hairline-strong);
+	background-color: var(--wash-hover);
+}
+
+input:disabled,
+textarea:disabled {
+	cursor: not-allowed;
+	opacity: 0.55;
+}
+
+#framerate {
+	width: 112px;
+	font-family: var(--font-mono);
+}
+
+#startobj,
+#endobj {
+	font-family: var(--font-mono);
+}
+
+#time {
+	padding: 14px 16px;
+	font-family: var(--font-mono);
+	font-size: 24px;
+	line-height: 1.17;
+	letter-spacing: -0.01em;
+	font-feature-settings: "tnum" on;
+	color: var(--text-head);
+}
+
+textarea {
+	min-height: 96px;
+	resize: vertical;
+	overflow: auto;
+}
+
+#mod_message {
+	font-family: var(--font-mono);
+	font-size: 13px;
+	opacity: 1;
+	-webkit-text-fill-color: var(--text-strong);
+}
+
+#mod_message:disabled {
+	opacity: 0.7;
+}
+
+kbd {
+	display: inline-block;
+	padding: 2px 6px;
+	font-family: var(--font-mono);
+	font-size: 12px;
+	color: var(--text-body);
+	background-color: rgba(199, 211, 234, 0.12);
+	border-radius: var(--radius-input);
+	box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.own_line {
+	width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Links + buttons
+   -------------------------------------------------------------------------- */
+
+a {
+	color: var(--text-body);
+	text-decoration: underline;
+	text-decoration-color: var(--hairline-strong);
+	text-underline-offset: 3px;
+	transition: text-decoration-color 0.15s ease, color 0.15s ease;
+}
+
+a:hover,
+a:focus-visible {
+	color: var(--text-head);
+	text-decoration-color: currentColor;
+}
+
+button,
+.pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px 16px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-strong);
+	text-decoration: none;
+	cursor: pointer;
+	background-color: var(--wash);
+	border-radius: var(--radius-pill);
+	box-shadow: inset 0 0 0 1px var(--hairline);
+	text-transform: none;
+	overflow: visible;
+	transition: background-color 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+button:hover:not(:disabled),
+.pill:hover {
+	background-color: var(--wash-hover);
+	color: var(--text-strong);
+}
+
+button:focus-visible,
+.pill:focus-visible,
+.icon-btn:focus-visible {
+	outline: 2px solid var(--hairline-strong);
+	outline-offset: 2px;
+}
+
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.4;
+}
+
+/* The one chromatic CTA: copying the mod message */
+#mod_message_button {
+	padding: 12px 24px;
+	color: var(--pure-white);
+	background-color: var(--void-violet);
+	border-radius: var(--radius-input);
+	box-shadow: none;
+}
+
+#mod_message_button:hover:not(:disabled) {
+	background-color: var(--void-violet);
+	color: var(--pure-white);
+	filter: brightness(1.12);
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+/* Circular icon buttons (settings / back) */
+.icon-btn,
+#settings,
+#back {
+	position: fixed;
+	top: 20px;
+	z-index: 10;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	background-color: var(--wash);
+	border-radius: 9999px;
+	box-shadow: inset 0 0 0 1px var(--hairline);
+	fill: var(--text-body);
+	transition: background-color 0.15s ease;
+}
+
+.icon-btn:hover {
+	background-color: var(--wash-hover);
+}
+
+#settings {
+	right: 20px;
+}
+
+#back {
+	left: 20px;
+}
+
+.icon-btn svg {
+	width: 20px;
+	height: 20px;
+	fill: currentColor;
+	color: var(--text-body);
+}
+
+/* --------------------------------------------------------------------------
+   Settings rows + switch
+   -------------------------------------------------------------------------- */
+
+.setting {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+}
+
+.setting--stack {
+	display: block;
+}
+
+.setting h2 {
+	margin-bottom: 4px;
+	font-size: 18px;
+	line-height: 1.33;
+}
+
+.setting .hint {
+	margin: 0;
+}
+
+.options {
+	margin: 0;
+}
+
+.help-link {
+	display: inline-block;
+	margin-bottom: 12px;
+	font-size: 14px;
+}
+
+.switch {
+	position: relative;
+	flex: none;
+	display: inline-block;
+	width: 52px;
+	height: 30px;
+	margin: 0;
+}
+
+.switch input {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+}
+
+.slider {
+	position: absolute;
+	inset: 0;
+	cursor: pointer;
+	background-color: var(--wash-hover);
+	border-radius: 34px;
+	box-shadow: inset 0 0 0 1px var(--hairline);
+	transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.slider::before {
+	content: "";
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	width: 22px;
+	height: 22px;
+	background-color: var(--switch-knob);
+	border-radius: 50%;
+	opacity: 0.75;
+	transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+input:checked + .slider {
+	background-color: var(--switch-on);
+	box-shadow: inset 0 0 0 1px var(--hairline-strong);
+}
+
+input:checked + .slider::before {
+	opacity: 1;
+	transform: translateX(22px);
+}
+
+input:focus-visible + .slider {
+	outline: 2px solid var(--hairline-strong);
+	outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Utilities (used by settings.js)
+   -------------------------------------------------------------------------- */
+
+.hidden {
+	display: none;
+}
+
+@media (max-width: 640px) {
+	body {
+		padding: 84px 16px 80px;
+	}
+
+	h1 {
+		font-size: 36px;
+	}
+
+	.card {
+		padding: 24px;
+	}
+
+	.field-row {
+		grid-template-columns: 1fr;
+	}
+
+	.eyebrow {
+		font-size: 13px;
+	}
+}

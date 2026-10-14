@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en" theme="dark">
+
+<head>
+	<title>Speedrun Retimer - Settings</title>
+	<meta charset="utf-8">
+	<meta name="keywords" content="Speedrun, Retime">
+	<meta name="description" content="A speedrun retime tool">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="color-scheme" content="dark light">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen">
+	<script defer src="settings.js"></script>
+</head>
+
+<body>
+	<a href="index.html" id="back" class="icon-btn" aria-label="Home Page">
+		<!--
+			Source: https://www.svgrepo.com/svg/18507/back-button
+			License: CC0 - Creative Commons (No rights reserved)
+		-->
+		<svg viewBox="0 0 219.151 219.151">
+			<path d="M109.576,219.151c60.419,0,109.573-49.156,109.573-109.576C219.149,
+				 49.156,169.995,0,109.576,0S0.002,49.156,0.002,109.575C0.002,
+				 169.995,49.157,219.151,109.576,219.151z M109.576,15c52.148,0,
+				 94.573,42.426,94.574,94.575c0,52.149-42.425,94.575-94.574,
+				 94.576c-52.148-0.001-94.573-42.427-94.573-94.577C15.003,57.427,
+				 57.428,15,109.576,15z"/>
+			<path d="M94.861,156.507c2.929,2.928,7.678,2.927,10.606,0c2.93-2.93,
+				 2.93-7.678-0.001-10.608l-28.82-28.819l83.457-0.008c4.142-0.001,
+				 7.499-3.358,7.499-7.502c-0.001-4.142-3.358-7.498-7.5-7.498l-83.46,
+				 0.008l28.827-28.825c2.929-2.929,2.929-7.679,0-10.607c
+				 -1.465-1.464-3.384-2.197-5.304-2.197c-1.919,0-3.838,0.733-5.303,
+				 2.196l-41.629,41.628c-1.407,1.406-2.197,3.313-2.197,5.303c0.001,
+				 1.99,0.791,3.896,2.198,5.305L94.861,156.507z"/>
+		</svg>
+	</a>
+
+	<main class="page">
+		<header class="hero">
+			<p class="eyebrow">Preferences</p>
+			<h1>Page Settings</h1>
+		</header>
+
+		<section class="card">
+			<div class="setting">
+				<div>
+					<h2 class="options">Dark Theme</h2>
+					<p class="hint">Switch between the dark and light appearance.</p>
+				</div>
+				<label class="switch" aria-label="Dark Theme">
+					<input type="checkbox" id="page_theme" onclick="change_theme()">
+					<span class="slider"></span>
+				</label>
+			</div>
+
+			<div class="setting">
+				<div>
+					<h2 class="options">Remove Titles</h2>
+					<p class="hint">Hide the section titles on the main page.</p>
+				</div>
+				<label class="switch" aria-label="Remove Titles">
+					<input type="checkbox" id="page_titles" onclick="remove_titles()">
+					<span class="slider"></span>
+				</label>
+			</div>
+
+			<div class="setting">
+				<div>
+					<h2 class="options">Remove Text</h2>
+					<p class="hint">Hide the explanatory text on the main page.</p>
+				</div>
+				<label class="switch" aria-label="Remove Text">
+					<input type="checkbox" id="page_text" onclick="remove_text()">
+					<span class="slider"></span>
+				</label>
+			</div>
+
+			<div class="setting setting--stack">
+				<h2 class="options">Custom Mod Message</h2>
+				<a class="help-link" href="https://github.com/MCBE-Speedrunning/retime.mcbe.wtf/blob/master/docs/custom_mod_messages.md" target="_blank" rel="noreferrer">
+					Help
+				</a>
+				<textarea id="custom_mod_message" cols="40" rows="3" onchange="set_mod_message(event)"></textarea>
+			</div>
+		</section>
+	</main>
+</body>
+
+</html>
