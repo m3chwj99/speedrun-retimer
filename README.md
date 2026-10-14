@@ -12,6 +12,10 @@ The original project can be found here:
 
 All credit for the original project goes to its original authors and contributors.
 
+## Preview
+
+![preview](assets/preview.png)
+
 ## License
 
 This project is based on software licensed under the GNU General Public License v3.0 (GPL-3.0).
